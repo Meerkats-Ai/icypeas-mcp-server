@@ -1,0 +1,38 @@
+{
+  "name": "icypeas-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Icypeas API integration. Features include finding work emails.",
+  "type": "module",
+  "bin": {
+    "icypeas-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dist/index.js",
+    "lint": "echo \"No linting configured\""
+  },
+  "keywords": [
+    "mcp",
+    "icypeas",
+    "email-finder",
+    "work-email"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.4.1",
+    "axios": "^1.6.2",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
