@@ -183,12 +183,18 @@ function delay(ms: number): Promise<void> {
 async function pollForEmailSearchResults(
   searchId: string,
   maxAttempts = 10,
-  intervalMs = 2000
+  intervalMs = 3000,
+  initialDelayMs = 5000
 ): Promise<EmailSearchResult> {
+  // Initial delay before first poll
+  safeLog('info', `Waiting initial delay of ${initialDelayMs}ms before polling`);
+  await delay(initialDelayMs);
+  
   let attempts = 0;
   
   while (attempts < maxAttempts) {
     attempts++;
+    safeLog('info', `Polling attempt ${attempts}/${maxAttempts}`);
     
     const response = await apiClient.post<EmailSearchResult>(
       '/bulk-single-searchs/read',
@@ -302,8 +308,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           safeLog('info', `Email search initiated with ID: ${searchId}`);
 
           // Step 2: Poll for results
-          safeLog('info', `Polling for results with search ID: ${searchId}`);
-          const searchResult = await pollForEmailSearchResults(searchId);
+          safeLog('info', `Initiating polling for results with search ID: ${searchId}`);
+          const searchResult = await pollForEmailSearchResults(
+            searchId,
+            10,    // Max 10 attempts
+            3000,  // 3 seconds between polls
+            5000   // 5 seconds initial delay
+          );
 
           // Format the response
           let formattedResponse;
